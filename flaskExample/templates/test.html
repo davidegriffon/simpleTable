@@ -35,48 +35,48 @@
 
         $(function() {
 
-            $("#tableWrapper").simpleTable({
-                tableId: "billers",
-                ajaxUrl: "/ajax/cities",
-                extraElementBeforeTable: $("<div/>", {id: "elementBeforeTable", style: "width: 100%; margin-bottom: 15px;"}),
-                columns: [
-                    {
-                        "column_title": "City",
-                        "field": "name",
-                        "defaultOrderBy": true,
-                        "defaultOrderByAscDesc": "desc"
-                    },
-                    {
-                        "column_title": "Country",
-                        "field": "country"
-                    },
-                    {
-                        "column_title": "Population",
-                        "field": "population",
-                        "renderer": populationRenderer
-                    },
-                    {
-                        "column_title": "Time zone",
-                        "field": "timezone",
-                        "sortable": false
-                    },
-                    {
-                        "column_title": "Is capital",
-                        "field": "capital",
-                        "renderer": capitalRenderer,
-                        "titleRenderer": function(row) {return row.capital ? "yep" : "Nope"}
-                    },
-                    {
-                        "column_title": "Demonym",
-                        "field": "demonym"
-                    }
-                ],
-                searchFields: [
-                    {"title": "Name", "htmlElement": nameFilter},
-                    {"title": "Country", "htmlElement": countryFilter}
-                ],
-                onTableCreated: onTableCreated
-            });
+$("#tableWrapper").simpleTable({
+    tableId: "billers",
+    ajaxUrl: "/ajax/cities",
+    extraElementBeforeTable: $("<div/>", {id: "elementBeforeTable", style: "width: 100%; margin-bottom: 15px;"}),
+    columns: [
+        {
+            "column_title": "City",
+            "field": "name",
+            "defaultOrderBy": true,
+            "defaultOrderByAscDesc": "desc"
+        },
+        {
+            "column_title": "Country",
+            "field": "country"
+        },
+        {
+            "column_title": "Population",
+            "field": "population",
+            "renderer": populationRenderer
+        },
+        {
+            "column_title": "Time zone",
+            "field": "timezone",
+            "sortable": false
+        },
+        {
+            "column_title": "Is capital",
+            "field": "capital",
+            "renderer": capitalRenderer,
+            "titleRenderer": function(row) {return row.capital ? "yep" : "Nope"}
+        },
+        {
+            "column_title": "Demonym",
+            "field": "demonym"
+        }
+    ],
+    searchFields: [
+        {"title": "Name", "htmlElement": nameFilter},
+        {"title": "Country", "htmlElement": countryFilter}
+    ],
+    onTableCreated: onTableCreated
+});
 
         });
 
