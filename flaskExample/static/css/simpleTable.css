@@ -53,7 +53,7 @@ th.columnSortable {
 
 .simpleTable tbody td {
     text-align: left;
-    padding: 5px 0;
+    padding: 8px 0;
     text-indent: 7px;
     font-size: 12px;
     font-family: Trebuchet MS;
@@ -61,15 +61,15 @@ th.columnSortable {
     color: #555555;
 }
 
-.dynamicTableSearchWrapper {
+.simpleTableSearchWrapper {
     margin-bottom: 12px;
 }
 
-.dynamicTableSearchWrapper table {
+.simpleTableSearchWrapper table {
     margin: 5px 0;
 }
 
-.dynamicTableButton {
+.simpleTableButton {
     background-color: #fafafa;
     border-top: 1px solid #bababa;
     border-right: 2px solid #bababa;
@@ -83,12 +83,12 @@ th.columnSortable {
     display: inline-block;
 }
 
-.dynamicTableHouglass {
+.simpleTableHouglass {
     background: url(../img/hourglass.gif) left center no-repeat;
     padding-left: 15px;
 }
 
-.dynamicTableShowHideSearchOptions {
+.simpleTableShowHideSearchOptions {
     cursor: pointer;
     color: #777;
     font-weight: bold;

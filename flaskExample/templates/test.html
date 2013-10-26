@@ -23,10 +23,12 @@
         var nameFilter = $("<input/>", {name: "name", type: "text"});
         var countryFilter = $("<input/>", {name: "country", type: "text"});
 
-        function onTableCreated() {
-            var data = arguments[0];    // arguments[0] automatically binded to the json response
-            var tableId = arguments[1]; // arguments[1] automatically binded to id of the table
+        function dataParser(data) {
+            // if you need extra work on data before rendering
+            return data
+        }
 
+        function onTableCreated(data, tableId) {
             var numberOfRows = data.length;
             $(".onDataReceived").remove();
             var displayNumberOfRow = $("<div/>", {"class": "onDataReceived", html: "Number of cities: "+numberOfRows, style: "font-weight: bold;"});
@@ -35,48 +37,49 @@
 
         $(function() {
 
-$("#tableWrapper").simpleTable({
-    tableId: "billers",
-    ajaxUrl: "/ajax/cities",
-    extraElementBeforeTable: $("<div/>", {id: "elementBeforeTable", style: "width: 100%; margin-bottom: 15px;"}),
-    columns: [
-        {
-            "column_title": "City",
-            "field": "name",
-            "defaultOrderBy": true,
-            "defaultOrderByAscDesc": "desc"
-        },
-        {
-            "column_title": "Country",
-            "field": "country"
-        },
-        {
-            "column_title": "Population",
-            "field": "population",
-            "renderer": populationRenderer
-        },
-        {
-            "column_title": "Time zone",
-            "field": "timezone",
-            "sortable": false
-        },
-        {
-            "column_title": "Is capital",
-            "field": "capital",
-            "renderer": capitalRenderer,
-            "titleRenderer": function(row) {return row.capital ? "yep" : "Nope"}
-        },
-        {
-            "column_title": "Demonym",
-            "field": "demonym"
-        }
-    ],
-    searchFields: [
-        {"title": "Name", "htmlElement": nameFilter},
-        {"title": "Country", "htmlElement": countryFilter}
-    ],
-    onTableCreated: onTableCreated
-});
+            $("#tableWrapper").simpleTable({
+                tableId: "billers",
+                ajaxUrl: "/ajax/cities",
+                extraElementBeforeTable: $("<div/>", {id: "elementBeforeTable", style: "width: 100%; margin-bottom: 15px;"}),
+                columns: [
+                    {
+                        "column_title": "City",
+                        "field": "name",
+                        "defaultOrderBy": true,
+                        "defaultOrderByAscDesc": "desc"
+                    },
+                    {
+                        "column_title": "Country",
+                        "field": "country"
+                    },
+                    {
+                        "column_title": "Population",
+                        "field": "population",
+                        "renderer": populationRenderer
+                    },
+                    {
+                        "column_title": "Time zone",
+                        "field": "timezone",
+                        "sortable": false
+                    },
+                    {
+                        "column_title": "Is capital",
+                        "field": "capital",
+                        "renderer": capitalRenderer,
+                        "titleRenderer": function(row) {return row.capital ? "yep" : "Nope"}
+                    },
+                    {
+                        "column_title": "Demonym",
+                        "field": "demonym"
+                    }
+                ],
+                searchFields: [
+                    {"title": "Name", "htmlElement": nameFilter},
+                    {"title": "Country", "htmlElement": countryFilter}
+                ],
+                dataParser: dataParser,
+                onTableCreated: onTableCreated
+            });
 
         });
 

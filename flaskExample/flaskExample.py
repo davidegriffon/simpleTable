@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, Response
+import time
 import json
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ def test():
 
 @app.route('/ajax/cities')
 def ajax_cities():
+    time.sleep(1)  # delay simulation
     order_by = request.args.get('orderBy', 0, type=str)
     name = request.args.get('name', 0, type=str)
     country = request.args.get('country', 0, type=str)

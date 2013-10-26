@@ -22,7 +22,7 @@
           colspan: settings["columns"].length,
           style: "padding-left: " + (tableWidth / 2 - 50) + "px!important"
         }).append($("<div/>", {
-          "class": "dynamicTableHouglass",
+          "class": "simpleTableHouglass",
           html: settings["textOnWait"]
         })));
         return $("#" + settings["tableId"] + " tbody").append(hourglass);
@@ -34,12 +34,12 @@
         var clearButton, field, fieldSettings, fromRow, key, searchButton, searchForm, searchHtmlTable, searchWrapper, searchable, showSearch, toRow, tr, value, _i, _len, _ref;
         searchable = settings["searchFields"].length > 0;
         showSearch = $("<div/>", {
-          "class": "dynamicTableShowHideSearchOptions",
+          "class": "simpleTableShowHideSearchOptions",
           html: settings["textShowHideSearchSection"],
           style: "display: " + (searchable ? "block" : "none")
         });
         searchWrapper = $("<div/>", {
-          "class": "dynamicTableSearchWrapper",
+          "class": "simpleTableSearchWrapper",
           style: "display: none"
         });
         searchForm = $("<form/>", {
@@ -102,12 +102,12 @@
         searchWrapper.append(searchForm);
         searchButton = $("<div/>", {
           html: settings["textSerchButton"],
-          "class": "dynamicTableButton"
+          "class": "simpleTableButton"
         });
         searchButton.click(redrawTable);
         clearButton = $("<div/>", {
           html: settings["textClearButton"],
-          "class": "dynamicTableButton",
+          "class": "simpleTableButton",
           style: "margin-left: 7px"
         });
         clearButton.click(function() {
@@ -211,7 +211,7 @@
           data: payload,
           timeout: settings["timeout"],
           success: function(data, textStatus, jqXHR) {
-            settings["onDataReceived"](data, settings["tableId"]);
+            data = settings["dataParser"](data);
             hideHourglass();
             if (data.length === 0) {
               drawEmptyTable(settings["textIfEmpty"]);
@@ -233,7 +233,7 @@
         });
       };
       drawRows = function(rows) {
-        var columnDefinition, field_name, htmlColumn, htmlRow, rendered_field, row, _i, _j, _len, _len1, _ref, _results;
+        var columnDefinition, fieldName, htmlColumn, htmlRow, rendered_field, row, _i, _j, _len, _len1, _ref, _results;
         _results = [];
         for (_i = 0, _len = rows.length; _i < _len; _i++) {
           row = rows[_i];
@@ -241,11 +241,11 @@
           _ref = settings["columns"];
           for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
             columnDefinition = _ref[_j];
-            field_name = columnDefinition["field"];
-            rendered_field = columnDefinition.hasOwnProperty("renderer") ? columnDefinition["renderer"](row) : row[field_name];
+            fieldName = columnDefinition["field"];
+            rendered_field = columnDefinition.hasOwnProperty("renderer") ? columnDefinition["renderer"](row) : row[fieldName];
             htmlColumn = $("<td/>", {
               html: rendered_field,
-              "class": "col_" + field_name
+              "class": "col_" + fieldName
             });
             if (columnDefinition.hasOwnProperty("titleRenderer")) {
               htmlColumn.attr("title", columnDefinition["titleRenderer"](row));
@@ -278,8 +278,10 @@
         searchFields: [],
         hiddenSearchFields: {},
         resizable: true,
-        onDataReceived: function() {},
-        onTableCreated: function() {},
+        dataParser: function(data) {
+          return data;
+        },
+        onTableCreated: function(data, tableId) {},
         textShowHideSearchSection: "Show/hide search options",
         textOnWait: "Wait please",
         textFromRow: "From row:",

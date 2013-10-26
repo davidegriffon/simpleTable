@@ -19,7 +19,7 @@
         colspan: settings["columns"].length
         style: "padding-left: #{(tableWidth / 2 - 50)}px!important"
       ).append($("<div/>",
-        class: "dynamicTableHouglass"
+        class: "simpleTableHouglass"
         html: settings["textOnWait"]
       )))
       $("##{settings["tableId"]} tbody").append hourglass
@@ -34,11 +34,11 @@
     initSearchSection = ->
       searchable = settings["searchFields"].length > 0 # if table supports filters
       showSearch = $("<div/>",
-        class: "dynamicTableShowHideSearchOptions"
+        class: "simpleTableShowHideSearchOptions"
         html: settings["textShowHideSearchSection"]
         style: "display: #{(if searchable then "block" else "none")}"
       )
-      searchWrapper = $("<div/>", class: "dynamicTableSearchWrapper", style: "display: none")
+      searchWrapper = $("<div/>", class: "simpleTableSearchWrapper", style: "display: none")
       searchForm = $("<form/>", onsubmit: "return false") # prevent form submit on enter keypress
       searchHtmlTable = $("<table/>")
 
@@ -77,9 +77,9 @@
       searchWrapper.append searchForm
 
       # add search and clear button to wrapper
-      searchButton = $("<div/>", html: settings["textSerchButton"], class: "dynamicTableButton")
+      searchButton = $("<div/>", html: settings["textSerchButton"], class: "simpleTableButton")
       searchButton.click redrawTable
-      clearButton = $("<div/>", html: settings["textClearButton"], class: "dynamicTableButton", style: "margin-left: 7px")
+      clearButton = $("<div/>", html: settings["textClearButton"], class: "simpleTableButton", style: "margin-left: 7px")
       clearButton.click ->
         globalWrapper.find("input").val("") # clear all search filters
 
@@ -175,7 +175,7 @@
         timeout: settings["timeout"]
 
         success: (data, textStatus, jqXHR) ->
-          settings["onDataReceived"](data, settings["tableId"]) # execute additional custom function if present
+          data = settings["dataParser"](data) # execute additional custom function if present
           hideHourglass()
           if data.length is 0
             drawEmptyTable settings["textIfEmpty"]
@@ -196,9 +196,9 @@
       for row in rows
         htmlRow = $("<tr/>")
         for columnDefinition in settings["columns"]
-          field_name = columnDefinition["field"]
-          rendered_field = if columnDefinition.hasOwnProperty("renderer") then columnDefinition["renderer"](row) else row[field_name]
-          htmlColumn = $("<td/>", html: rendered_field, class: "col_#{field_name}")
+          fieldName = columnDefinition["field"]
+          rendered_field = if columnDefinition.hasOwnProperty("renderer") then columnDefinition["renderer"](row) else row[fieldName]
+          htmlColumn = $("<td/>", html: rendered_field, class: "col_#{fieldName}")
           htmlColumn.attr("title", columnDefinition["titleRenderer"](row)) if columnDefinition.hasOwnProperty("titleRenderer")
           htmlRow.append htmlColumn
 
@@ -226,9 +226,10 @@
       searchFields: []                               # definitions of the search fields
       hiddenSearchFields: {}                         # hidden search fields automatically added
       resizable: true                                # determines whether columns are resizables
-      # addictional functions executed after ajax response and after the table creation
-      onDataReceived: -> # arguments[0] is data returned in ajax, arguments[1] is the id of the created html table
-      onTableCreated: -> # arguments[0] is data returned in ajax, arguments[1] is the id of the created html table
+      # optional function executed when ajax reponse arrive. Useful if data manipulation is needed before rendering
+      dataParser: (data) -> data
+      # optional function executed each time table is rendered
+      onTableCreated: (data, tableId) ->
       # following some default text used by the table
       textShowHideSearchSection: "Show/hide search options"
       textOnWait: "Wait please"

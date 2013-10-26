@@ -5,3 +5,10 @@ body {
     color: #555555;
     font-size: 13px;
 }
+
+input[type=text] {
+    border: 1px solid #B9C7A4;
+    border-radius: 0;
+    padding: 3px;
+    -webkit-appearance: none;
+}
