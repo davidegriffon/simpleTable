@@ -1,8 +1,9 @@
+# Disclamer
+This is an old unmaintained repository! This project was only an experiment I made in order to learn Coffeecript.
+
 # SimpleTable
 
 A simple jQuery plugin to create dynamic ajax tables
-
-**Disclamer**: this project is only an experiment I made in order to learn Coffeecript. It's currently in **beta**
 
 ## Usage
 
